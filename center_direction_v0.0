@@ -1,0 +1,26 @@
+
+import pygame, os, sys, random
+import fun_v0.0 as fun
+from pygame.locals import *
+pygame.init()
+
+clock = pygame.time.Clock()
+DS = pygame.display.set_mode((500,680))
+flock, centerDirection = fun.get_flock()
+right = 0
+wrong = 0
+while True:
+    DS.fill((0,0,0))
+    DS.blit(flock, (10, 10)) # 10px boarder
+    pygame.display.update()
+    for event in pygame.event.get():
+        inputDirection = fun.check_event(event)
+        if inputDirection in 'north south east west'.split():
+            if fun.check_answer(inputDirection, centerDirection):
+                right += 1
+            else:
+                wrong += 1
+            flock, centerDirection = fun.get_flock()
+
+            print('right: %s, wrong: %s' %(right, wrong))
+    clock.tick(30)
